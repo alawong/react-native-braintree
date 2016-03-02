@@ -28,15 +28,21 @@ RCT_EXPORT_METHOD(setup:(NSString *)clientToken)
   self.braintree = [Braintree braintreeWithClientToken:clientToken];
 }
 
-RCT_EXPORT_METHOD(showPaymentViewController:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(showPaymentViewController:(NSString*)title summaryTitle:(NSString*)summaryTitle summaryDescription:(NSString*)summaryDescription displayAmount:(NSString*)displayAmount callToActionText:(NSString*)callToActionText callback:(RCTResponseSenderBlock)callback)
 {
   BTDropInViewController *dropInViewController = [self.braintree dropInViewControllerWithDelegate:self];
   dropInViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(userDidCancelPayment)];
-
+  
+  dropInViewController.title = title;
+  [dropInViewController setSummaryTitle:summaryTitle];
+  [dropInViewController setSummaryDescription:summaryDescription];
+  [dropInViewController setDisplayAmount:displayAmount];
+  [dropInViewController setCallToActionText:callToActionText];
+  
   self.callback = callback;
-
+  
   UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dropInViewController];
-
+  
   self.reactRoot = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
   [self.reactRoot presentViewController:navigationController animated:YES completion:nil];
 }

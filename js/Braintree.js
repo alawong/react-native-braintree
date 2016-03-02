@@ -12,8 +12,8 @@ var Braintree = {
 		RNBraintree.setup(token);
 	},
 
-	showPaymentViewController(callback) {
-		RNBraintree.showPaymentViewController(callback);
+	showPaymentViewController(title,summaryTitle,summaryDescription,displayAmount,callToActionText,callback) {
+		RNBraintree.showPaymentViewController(title, summaryTitle, summaryDescription, displayAmount, callToActionText, callback);
 	},
 
 	showPayPalViewController(callback) {
